@@ -105,21 +105,8 @@
 
                 if (results.multiFaceLandmarks) {
                     for (const landmarks of results.multiFaceLandmarks) {
-                        i = 0;
                         ctx.fillStyle = "lime";
                         for (const point of landmarks) {
-                            i++;
-                            if (i > 500) {
-                                ctx.fillStyle = "yellow";
-                            } else if (i > 400) {
-                                ctx.fillStyle = "black";
-                            } else if (i > 300) {
-                                ctx.fillStyle = "blue";
-                            } else if (i > 200) {
-                                ctx.fillStyle = "green";
-                            } else if (i > 100) {
-                                ctx.fillStyle = "grey";
-                            }
                             ctx.beginPath();
                             ctx.arc(point.x * canvas.width, point.y * canvas.height, 2, 0, 2 * Math.PI);
                             ctx.fill();
@@ -146,7 +133,6 @@
                         Math.pow(rightEye.y - leftEye.y, 2) + 
                         Math.pow(rightEye.z - leftEye.z, 2)
                     );
-
                     const depthFactor = eyeDist;
                     
                     glasses.position.set(
@@ -155,16 +141,13 @@
                         depthFactor
                     );
                     
-                    const scale = 0.3 + depthFactor * 10;
+                    const scale = 0.30 + depthFactor * 10;
                     glasses.scale.set(scale, scale, scale);
                     
-                    const yaw = Math.atan2(rightEye.y - leftEye.y, rightEye.x - leftEye.x);
-                    glasses.rotation.set(0, yaw, 0);
+                    document.getElementById("variable").textContent = scale;
                     
-                    document.getElementById("variable").textContent = yaw;
-                    
-                    glasses.position.x -= 0.30; // Двигаем влево
-                    glasses.position.y -= 0.15; // Двигаем вверх
+                    glasses.position.x -= 0.25; // Двигаем влево
+                    glasses.position.y -= 0.25; // Двигаем вверх
                     glasses.position.z += 0.05; // Двигаем от себя
                 }
                 renderer.render(scene, camera);
