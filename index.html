@@ -30,6 +30,7 @@
     </div>
     <div id="controls">
         <br>
+        <button id="hide">Скрыть/Показать</button>
         <button id="increase">➕ Увеличить</button>
         <button id="decrease">➖ Уменьшить</button>
         <p>Текущая точка: <span id="pointIndex">398</span></p>
@@ -40,6 +41,7 @@
         const WIDTH = 640;
         const HEIGHT = 480;
         let scene, camera, renderer, glasses;
+        let showPoints = false;
         let pointIndex = 473;
 
         function initThreeJS() {
@@ -103,7 +105,7 @@
                 ctx.clearRect(0, 0, WIDTH, HEIGHT);
                 ctx.drawImage(video, 0, 0, WIDTH, HEIGHT);
 
-                if (results.multiFaceLandmarks) {
+                if (showPoints && results.multiFaceLandmarks ) {
                     for (const landmarks of results.multiFaceLandmarks) {
                         ctx.fillStyle = "lime";
                         for (const point of landmarks) {
@@ -146,7 +148,7 @@
                     
                     document.getElementById("variable").textContent = scale;
                     
-                    glasses.position.x -= 0.25; // Двигаем влево
+                    glasses.position.x -= 0.35; // Двигаем влево
                     glasses.position.y -= 0.25; // Двигаем вверх
                     glasses.position.z += 0.05; // Двигаем от себя
                 }
@@ -162,6 +164,10 @@
 
             detectFace();
         }
+
+        document.getElementById("hide").addEventListener("click", () => {
+            showPoints = !showPoints;
+        });
 
         document.getElementById("increase").addEventListener("click", () => {
             if (pointIndex < 477) {
